@@ -10,33 +10,53 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as MovementRouteImport } from './routes/movement'
+import { Route as TriathlonRouteImport } from './routes/triathlon'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MovementRoute = MovementRouteImport.update({
+  id: '/movement',
+  path: '/movement',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TriathlonRoute = TriathlonRouteImport.update({
+  id: '/triathlon',
+  path: '/triathlon',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/movement': typeof MovementRoute
+  '/triathlon': typeof TriathlonRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/movement': typeof MovementRoute
+  '/triathlon': typeof TriathlonRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/movement': typeof MovementRoute
+  '/triathlon': typeof TriathlonRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/movement' | '/triathlon'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/movement' | '/triathlon'
+  id: '__root__' | '/' | '/movement' | '/triathlon'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  MovementRoute: typeof MovementRoute
+  TriathlonRoute: typeof TriathlonRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +68,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/movement': {
+      id: '/movement'
+      path: '/movement'
+      fullPath: '/movement'
+      preLoaderRoute: typeof MovementRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/triathlon': {
+      id: '/triathlon'
+      path: '/triathlon'
+      fullPath: '/triathlon'
+      preLoaderRoute: typeof TriathlonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  MovementRoute: MovementRoute,
+  TriathlonRoute: TriathlonRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
